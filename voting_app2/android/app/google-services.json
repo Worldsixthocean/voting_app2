@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "90110935970",
+    "project_id": "voting-app-d39ec",
+    "storage_bucket": "voting-app-d39ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90110935970:android:699e3eb8a567163c4ba8fb",
+        "android_client_info": {
+          "package_name": "com.ocean.voting"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJLhExZmveMWu8OCyHaNp1SXBOKYEarow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90110935970:android:2d5040f09ff85c594ba8fb",
+        "android_client_info": {
+          "package_name": "com.ocean.votingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJLhExZmveMWu8OCyHaNp1SXBOKYEarow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

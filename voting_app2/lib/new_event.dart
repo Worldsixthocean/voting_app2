@@ -14,6 +14,7 @@ class _NewEvent extends State<NewEvent> {
   final _formKey = GlobalKey<FormState>();
   final eventNameC = TextEditingController();
   final descriptionC = TextEditingController();
+  List<DateTime> propsedTime = <DateTime>[];
 
   @override
   void dispose() {
@@ -54,10 +55,55 @@ class _NewEvent extends State<NewEvent> {
             ),
 
             Wrap(
-              children: [
-                
-              ],
+              spacing: 8.0, // gap between adjacent chips
+              runSpacing: 4.0, // gap between lines
+              children: <Widget>[
+                for (var i in propsedTime)
+                  Chip(
+                    backgroundColor: Colors.transparent,
+                    avatar: Icon(Icons.date_range),
+                    label: Text(
+                      "${i.day}/${i.month}/${i.year} ${i.hour.toString().padLeft(2,'0')}:${i.minute.toString().padLeft(2,'0')}"
+                    ),
+                    onDeleted: () {
+                      
+                    },
+                    deleteIcon: Icon(Icons.close)
+                  ),
+                  ActionChip(
+                    avatar: Icon(Icons.add),
+                    label: Text('Propose a new time'),
+                    backgroundColor: Colors.transparent,
+                    onPressed: () async{
+                      DateTime? dt = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(), 
+                          firstDate: DateTime(2000), 
+                          lastDate: DateTime(2100)
+                        );
+                      if(dt != null && context.mounted){
+                        TimeOfDay? tod = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now()
+                        );
+                        if(tod!=null){
+                          setState(() {
+                            propsedTime.add(
+                              DateTime(
+                                dt.year,
+                                dt.month,
+                                dt.day,
+                                tod.hour,
+                                tod.minute
+                              ));
+                          });
+                        }
+                      }
+                    },
+                  )
+              ]
             )
+
           ]
         ),
       ),

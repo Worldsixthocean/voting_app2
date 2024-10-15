@@ -22,20 +22,31 @@ class _EventListState extends State<EventList> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: []
           ),
-          Align(
-            alignment: FractionalOffset(0.9, 0.9),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const NewEvent()
-                  )
-                );
-              },
-              child: Text('New Event'),
-            )
-          )
+          // Align(
+          //   alignment: FractionalOffset(0.9, 0.9),
+          //   child: ElevatedButton(
+          //     onPressed: () {
+          //       Navigator.of(context).push(
+          //         MaterialPageRoute(
+          //           builder: (context) => const NewEvent()
+          //         )
+          //       );
+          //     },
+          //     child: Text('New Event'),
+          //   )
+          // )
         ]
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const NewEvent()
+            )
+          );
+        },
+        icon: const Icon(Icons.add),
+        label: const Text('New Event'),
       ),
     );
   }

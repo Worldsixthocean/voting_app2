@@ -66,7 +66,9 @@ class _NewEvent extends State<NewEvent> {
                       "${i.day}/${i.month}/${i.year} ${i.hour.toString().padLeft(2,'0')}:${i.minute.toString().padLeft(2,'0')}"
                     ),
                     onDeleted: () {
-                      
+                      setState(() {
+                        propsedTime.remove(i);
+                      });
                     },
                     deleteIcon: Icon(Icons.close)
                   ),

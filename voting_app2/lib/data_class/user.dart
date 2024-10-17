@@ -38,11 +38,25 @@ class User {
   Map<String, dynamic> toFirestore() {
     return {
       "email": email,
-      "state": events,
+      "events": events,
       "organize": organize,
       "pending": pending,
       "uid": uid,
       "user": user,
     };
+  }
+
+  @override
+  String toString(){
+    return(
+'''{
+  email: $email
+  state: $events
+  organizers: ${organize.toString()}
+  attendees: ${pending.toString()}
+  uid: $uid
+  name: $user
+}'''
+    );
   }
 }

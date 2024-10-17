@@ -13,16 +13,8 @@ class UserSnippet {
     this.uid
   });
 
-  // String get getEmail => email;
-  // String get getName => name;
-  // int get getUidInEvent => uidInEvent;
-  // String? get getUid => uid;
-
-  // set setEmail(String input) => email = input;
-  // set setName(String input) => name = input;
-  // set setUidInEvent(int input) => uidInEvent = input;
-  // set setUid(String input) => uid = input;
-
+  //unused
+  /*
   factory UserSnippet.fromMap(Map<String, dynamic> map){
     return UserSnippet(
       email: map['email'],
@@ -39,7 +31,28 @@ class UserSnippet {
     }
     return output;
   }
+  */
 
+  //from firestore single
+  factory UserSnippet.fromDyanmic(dynamic d){
+    return UserSnippet(
+      email: d['email'],
+      name: d['name'],
+      uidInEvent: d['uidInEvent'],
+      uid: d['uid']
+    );
+  }
+
+  //from firestore list
+  static List<UserSnippet> fromDyanmicList(List<dynamic> dList){
+    var output = <UserSnippet>[];
+    for (var i in dList){
+      output.add(UserSnippet.fromDyanmic(i));
+    }
+    return output;
+  }
+
+  //to firestore type single item
   Map<String,dynamic> toMap(){
     return {
       'email': email,
@@ -49,12 +62,28 @@ class UserSnippet {
     };
   }
 
+  //to firestore type list
   static List<Map<String,dynamic>> toListOfMap(List<UserSnippet> list){
     var output = <Map<String,dynamic>>[];
     for (var i in list){
       output.add(i.toMap());
     }
     return output;
+  }
+
+  //util:print class object for debug
+  @override
+  String toString(){
+    return(
+'''
+  {
+    email: $email
+    name: $name
+    uidInEvent: $uidInEvent
+    uid: $uid
+  }
+'''
+    );
   }
 }
 
@@ -69,14 +98,8 @@ class PropsedTime {
     required this.maybe
   });
 
-  // List<int> get getAvailable => available;
-  // DateTime get getDate => date;
-  // List<int> get getMaybe => maybe;
-
-  // set setAvailable(List<int> input) => available = input;
-  // set setDate(DateTime input) => date = input;
-  // set setMaybe(List<int> input) => maybe = input;
-
+  //unused
+  /*
   factory PropsedTime.fromMap(Map<String, dynamic> map){
     return PropsedTime(
       available: 
@@ -95,7 +118,30 @@ class PropsedTime {
     }
     return output;
   }
+  */
 
+  //from firestore single item
+  factory PropsedTime.fromDyanmic(dynamic d){
+    return PropsedTime(
+      available: 
+        d['available'] is Iterable ? List.from(d['available']) : <int>[],
+      date: 
+        d['date'] is Timestamp ? d['date'].toDate() : throw('${d['available']} is not a timestamp'),
+      maybe: 
+        d['maybe'] is Iterable ? List.from(d['maybe']) : <int>[]
+    );
+  }
+
+  //from firestore list
+  static List<PropsedTime> fromDyanmicList(List<dynamic> dList){
+    var output = <PropsedTime>[];
+    for (var i in dList){
+      output.add(PropsedTime.fromDyanmic(i));
+    }
+    return output;
+  }
+
+  //to firestore single item
   Map<String,dynamic> toMap(){
     return {
       'available': available,
@@ -104,6 +150,7 @@ class PropsedTime {
     };
   }
 
+  //to firestore list
   static List<Map<String,dynamic>> toListOfMap(List<PropsedTime> list){
     var output = <Map<String,dynamic>>[];
     for (var i in list){
@@ -111,7 +158,19 @@ class PropsedTime {
     }
     return output;
   }
-
+  //util:print class object for debug
+  @override
+  String toString(){
+    return(
+'''
+  {
+    available: $available
+    date: $date
+    maybe: $maybe
+  }
+'''
+    );
+  }
 }
 
 class Event {
@@ -138,10 +197,10 @@ class Event {
     SnapshotOptions? options,
   ) {
     final data = snapshot.data();
-    final attendees = UserSnippet.generateListOfUserSnippets(data!['attendees']);
-    final dates = PropsedTime.generateListOfPropsedTime(data['dates']);
-    final organizers = UserSnippet.generateListOfUserSnippets(data['organizers']);
-    final pending = UserSnippet.generateListOfUserSnippets(data['pending']);
+    final attendees = UserSnippet.fromDyanmicList(data!['attendees']);
+    final dates = PropsedTime.fromDyanmicList(data['dates']);
+    final organizers = UserSnippet.fromDyanmicList(data['organizers']);
+    final pending = UserSnippet.fromDyanmicList(data['pending']);
 
     return Event(
       attendees: attendees, 
@@ -160,10 +219,25 @@ class Event {
       "dates": PropsedTime.toListOfMap(dates), 
       "description": description, 
       "eventsName": eventsName, 
-      "organizers": UserSnippet.toListOfMap(attendees), 
+      "organizers": UserSnippet.toListOfMap(organizers), 
       "pending": UserSnippet.toListOfMap(pending), 
       "counter": counter
     };
+  }
+
+  //util:print class object for debug
+  @override
+  String toString(){
+    return(
+'''{
+  eventsName: $eventsName
+  description: $description
+  organizers: ${organizers.toString()}
+  attendees: ${attendees.toString()}
+  pending: ${pending.toString()}
+  counter: $counter
+}'''
+    );
   }
 
 }

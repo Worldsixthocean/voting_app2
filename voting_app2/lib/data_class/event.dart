@@ -87,12 +87,12 @@ class UserSnippet {
   }
 }
 
-class PropsedTime {
+class ProposedTime {
   List<int> available;
   DateTime date;
   List<int> maybe;
 
-  PropsedTime({
+  ProposedTime({
     required this.available,
     required this.date,
     required this.maybe
@@ -100,8 +100,8 @@ class PropsedTime {
 
   //unused
   /*
-  factory PropsedTime.fromMap(Map<String, dynamic> map){
-    return PropsedTime(
+  factory ProposedTime.fromMap(Map<String, dynamic> map){
+    return ProposedTime(
       available: 
         map['available'] is Iterable ? List.from(map['available']) : <int>[],
       date: 
@@ -111,18 +111,18 @@ class PropsedTime {
     );
   }
 
-  static List<PropsedTime> generateListOfPropsedTime(List<Map<String,dynamic>> list){
-    var output = <PropsedTime>[];
+  static List<ProposedTime> generateListOfProposedTime(List<Map<String,dynamic>> list){
+    var output = <ProposedTime>[];
     for (var i in list){
-      output.add(PropsedTime.fromMap(i));
+      output.add(ProposedTime.fromMap(i));
     }
     return output;
   }
   */
 
   //from firestore single item
-  factory PropsedTime.fromDyanmic(dynamic d){
-    return PropsedTime(
+  factory ProposedTime.fromDyanmic(dynamic d){
+    return ProposedTime(
       available: 
         d['available'] is Iterable ? List.from(d['available']) : <int>[],
       date: 
@@ -133,10 +133,10 @@ class PropsedTime {
   }
 
   //from firestore list
-  static List<PropsedTime> fromDyanmicList(List<dynamic> dList){
-    var output = <PropsedTime>[];
+  static List<ProposedTime> fromDyanmicList(List<dynamic> dList){
+    var output = <ProposedTime>[];
     for (var i in dList){
-      output.add(PropsedTime.fromDyanmic(i));
+      output.add(ProposedTime.fromDyanmic(i));
     }
     return output;
   }
@@ -151,7 +151,7 @@ class PropsedTime {
   }
 
   //to firestore list
-  static List<Map<String,dynamic>> toListOfMap(List<PropsedTime> list){
+  static List<Map<String,dynamic>> toListOfMap(List<ProposedTime> list){
     var output = <Map<String,dynamic>>[];
     for (var i in list){
       output.add(i.toMap());
@@ -175,7 +175,7 @@ class PropsedTime {
 
 class Event {
   List<UserSnippet> attendees;
-  List<PropsedTime> dates;
+  List<ProposedTime> dates;
   String description;
   String eventsName;
   List<UserSnippet> organizers;
@@ -198,7 +198,7 @@ class Event {
   ) {
     final data = snapshot.data();
     final attendees = UserSnippet.fromDyanmicList(data!['attendees']);
-    final dates = PropsedTime.fromDyanmicList(data['dates']);
+    final dates = ProposedTime.fromDyanmicList(data['dates']);
     final organizers = UserSnippet.fromDyanmicList(data['organizers']);
     final pending = UserSnippet.fromDyanmicList(data['pending']);
 
@@ -216,7 +216,7 @@ class Event {
   Map<String, dynamic> toFirestore() {
     return{
       "attendees": UserSnippet.toListOfMap(attendees),
-      "dates": PropsedTime.toListOfMap(dates), 
+      "dates": ProposedTime.toListOfMap(dates), 
       "description": description, 
       "eventsName": eventsName, 
       "organizers": UserSnippet.toListOfMap(organizers), 

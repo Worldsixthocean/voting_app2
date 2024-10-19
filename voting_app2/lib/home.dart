@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:voting_app2/app_drawer.dart';
 import 'package:voting_app2/auth_state.dart';
 import 'package:voting_app2/data_class/event.dart';
+import 'package:voting_app2/user_context.dart';
+import 'package:voting_app2/widget/doc_subscibe.dart';
 
 class TopArea extends StatelessWidget {
   const TopArea({
@@ -20,11 +21,16 @@ class TopArea extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({
     super.key
   });
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,19 +45,19 @@ class Home extends StatelessWidget {
             color: Colors.white,
             child: Column(
               children: [
-                Consumer<AppAuthState>(builder: (context, state, child) => Text(state.getUserID())),
                 ElevatedButton(
                   onPressed: () async {
                     await FirebaseAuth.instance.signOut();
                   }, 
                   child: Text('logout')
-                ),
+                )
+                ,
                 ElevatedButton(
                   onPressed: () async {
                     FirebaseFirestore db = FirebaseFirestore.instance;
                     Event e = Event(
                       attendees: [UserSnippet(email: 'email', name: 'name', uidInEvent: 1)], 
-                      dates: [PropsedTime(available: [1], date: DateTime.now(), maybe: [1])], 
+                      dates: [ProposedTime(available: [1], date: DateTime.now(), maybe: [1])], 
                       description: 'description', 
                       eventsName: 'eventsName', 
                       organizers: [UserSnippet(email: 'email', name: 'name', uidInEvent: 1)], 
@@ -59,13 +65,13 @@ class Home extends StatelessWidget {
                       counter: 0
                     );
 
-                    db.collection("event").add(
-                      e.toFirestore()
-                    ).then((documentSnapshot) =>
+                    db.collection("event").add(e.toFirestore())
+                    .then((documentSnapshot) =>
                       print("Added Data with ID: ${documentSnapshot.id}"));
                   }, 
                   child: Text('test')
-                ),
+                )
+                ,
                 ElevatedButton(
                   onPressed: (){
                     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -80,6 +86,11 @@ class Home extends StatelessWidget {
                   },
                   child: Text('retrive'),
                 )
+                ,
+                Consumer<AppAuthState>(
+                  builder: (context, authState, child) {
+                    return UserInformation(uid: authState.getUserID());
+                  })
               ]
             ),
           ),

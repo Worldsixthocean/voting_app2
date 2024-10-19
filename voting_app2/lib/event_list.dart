@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voting_app2/auth_state.dart';
 import 'package:voting_app2/new_event.dart';
 
 
@@ -41,7 +43,10 @@ class _EventListState extends State<EventList> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const NewEvent()
+              builder: (context) => 
+              Consumer<AppAuthState>( builder:(context, authState, child) => 
+                NewEventWrapper(uid:authState.getUserID())
+              )
             )
           );
         },

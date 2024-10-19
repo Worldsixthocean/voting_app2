@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import 'package:voting_app2/event_list.dart';
 import 'package:voting_app2/home.dart';
 import 'package:voting_app2/login_screen.dart';
 import 'package:voting_app2/register.dart';
+import 'package:voting_app2/user_context.dart';
 
   final GlobalKey<NavigatorState> _rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -61,9 +63,10 @@ class MyApp extends StatelessWidget{
     return Consumer<AppAuthState>(
       builder: (context, authState, child) {
         return MaterialApp.router(
-          routerConfig: authState.loggedIn ? _router : _routerLogin
+              routerConfig: authState.loggedIn ? _router : _routerLogin
         );
       }
     );
-  }
+   }
 }
+
